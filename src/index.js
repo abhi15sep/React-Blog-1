@@ -9,6 +9,7 @@ import { BrowserRouter, Route, withRouter } from "react-router-dom";
 import registerServiceWorker from "./registerServiceWorker";
 import Welcome from "./components/Welcome/Welcome";
 import CreateArticle from "./components/CreateArticle/CreateArticle";
+import AuthService from "./services/auth";
 
 class App extends React.Component {
 	state = {
@@ -20,6 +21,11 @@ class App extends React.Component {
 			this.setState({ authUser: JSON.parse(user) });
 		}
 	}
+	setAuthUser = authUser => {
+		this.setState({
+			authUser
+		});
+	};
 	render() {
 		const { location } = this.props;
 		return (
@@ -30,7 +36,16 @@ class App extends React.Component {
 						<Navbar authUser={this.state.authUser} />
 					)}
 				<Route path="/login" component={Login} />
-				<Route path="/signup" component={Signup} />
+				<Route
+					path="/signup"
+					render={props => (
+						<Signup
+							{...props}
+							registerUser={this.props.authService.registerUser}
+							setAuthUser={this.setAuthUser}
+						/>
+					)}
+				/>
 				<Route exact path="/" component={Welcome} />
 				<Route path="/articles/create" component={CreateArticle} />
 				<Route path="/article/:slug" component={SingleArticle} />
@@ -41,7 +56,9 @@ class App extends React.Component {
 	}
 }
 
-const Main = withRouter(props => <App {...props} />);
+const Main = withRouter(props => (
+	<App authService={new AuthService()} {...props} />
+));
 
 ReactDOM.render(
 	<BrowserRouter>

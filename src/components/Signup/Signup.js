@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { validateAll } from "indicative";
-import axios from "axios";
-import config from "../../config/index";
 
 class Signup extends React.Component {
 	state = {
@@ -20,44 +17,17 @@ class Signup extends React.Component {
 		});
 	};
 
-	handleFormSubmit = event => {
+	handleFormSubmit = async event => {
 		event.preventDefault();
 		// validation by indicative package
-		const data = this.state;
-		const rules = {
-			name: "required|string",
-			email: "required",
-			password: "required|string|min:6|max:30|confirmed"
-		};
-		const messages = {
-			required: "This {{field}} is required",
-			"password.confirmed": "The password confirmation did not match"
-		};
-		validateAll(data, rules, messages)
-			.then(() => {
-				this.setState({ errors: "" });
-				axios
-					.post(`${config.apiUrl}/auth/register`, {
-						name: this.state.name,
-						email: this.state.email,
-						password: this.state.password
-					})
-					.then(response => {
-						localStorage.setItem('user', JSON.stringify(response.data.data))
-						this.props.history.push("/");
-					})
-					.catch(errors => {
-						const formattedErrors = {};
-						formattedErrors["email"] = errors.response.data.email[0];
-						this.setState({ errors: formattedErrors });
-					});
-			})
-			.catch(errors => {
-				//show validation error to user
-				const formattedErrors = {};
-				errors.forEach(error => (formattedErrors[error.field] = error.message));
-				this.setState({ errors: formattedErrors });
-			});
+		try {
+			const user = await this.props.registerUser(this.state);
+			localStorage.setItem("user", JSON.stringify(user));
+			this.props.setAuthUser(user);
+			this.props.history.push("/");
+		} catch (errors) {
+			this.setState({ errors });
+		}
 	};
 
 	render() {
