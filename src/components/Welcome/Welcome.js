@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Article from "./../Article/Article";
-import Banner from "./../Banner/Banner";
-import {Link} from 'react-router-dom';
+import Article from "../Article/Article";
+import Banner from "../Banner/Banner";
+import { Link } from "react-router-dom";
 
 const Welcome = props => {
 	return (

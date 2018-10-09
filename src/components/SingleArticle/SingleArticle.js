@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const SingleArticle = props => {
-	return (
+const SingleArticle = props => 
 		<div>
 			<header
 				className="header header-inverse h-fullscreen pb-80"
@@ -176,8 +175,7 @@ const SingleArticle = props => {
 				</div>
 			</main>
 		</div>
-	);
-};
+
 
 SingleArticle.displayName = "SingleArticle";
 
