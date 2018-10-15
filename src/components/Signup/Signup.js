@@ -22,9 +22,7 @@ class Signup extends React.Component {
 		// validation by indicative package
 		try {
 			const user = await this.props.registerUser(this.state);
-			localStorage.setItem("user", JSON.stringify(user));
 			this.props.setAuthUser(user);
-			this.props.history.push("/");
 		} catch (errors) {
 			this.setState({ errors });
 		}
@@ -121,7 +119,8 @@ class Signup extends React.Component {
 Signup.displayName = "Signup";
 
 Signup.propTypes = {
-	className: PropTypes.string
+	registerUser: PropTypes.func.isRequired,
+	setAuthUser: PropTypes.func.isRequired,
 };
 
 export default Signup;

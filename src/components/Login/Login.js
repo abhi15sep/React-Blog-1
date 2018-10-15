@@ -19,9 +19,7 @@ class Login extends React.Component {
 		event.preventDefault();
 		try {
 			const user = await this.props.loginUser(this.state);
-			localStorage.setItem("user", JSON.stringify(user));
 			this.props.setAuthUser(user);
-			this.props.history.push("/");
 		} catch (errors) {
 			this.setState({ errors });
 		}
@@ -53,6 +51,11 @@ class Login extends React.Component {
 								placeholder="Username"
 								onChange={this.handleInputChange}
 							/>
+							{this.state.errors["email"] && (
+								<small className="text-danger">
+									{this.state.errors["email"]}
+								</small>
+							)}
 						</div>
 						<div className="form-group">
 							<input
@@ -62,6 +65,11 @@ class Login extends React.Component {
 								placeholder="Password"
 								onChange={this.handleInputChange}
 							/>
+							{this.state.errors["password"] && (
+								<small className="text-danger">
+									{this.state.errors["password"]}
+								</small>
+							)}
 						</div>
 						<div className="form-group flexbox py-10">
 							<label className="custom-control custom-checkbox">
@@ -99,7 +107,7 @@ class Login extends React.Component {
 Login.displayName = "Login";
 
 Login.propTypes = {
-	className: PropTypes.string
+	errors: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
 export default Login;
