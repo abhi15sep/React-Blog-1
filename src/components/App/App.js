@@ -59,7 +59,13 @@ class App extends Component {
 						/>
 					)}
 				/>
-				<Route exact path="/" component={Welcome} />
+				<Route
+					exact
+					path="/"
+					render={props => 
+						<Welcome {...props} getArticles={this.props.articlesService.getArticles}/>
+					}
+				/>
 				<Route
 					path="/articles/create"
 					render={props => (
@@ -69,6 +75,7 @@ class App extends Component {
 								this.props.articlesService.getArticleCategories
 							}
 							createArticle={this.props.articlesService.createArticle}
+							token={this.state.authUser.token}
 						/>
 					)}
 				/>

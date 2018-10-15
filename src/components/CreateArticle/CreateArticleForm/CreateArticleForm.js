@@ -2,7 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import Banner from "../../Banner/Banner";
 
-const CreateArticleForm = ({ handleInputChange, categories,handleSubmit }) => {
+const CreateArticleForm = ({
+	handleInputChange,
+	categories,
+	handleSubmit,
+	errors
+}) => {
 	return (
 		<React.Fragment>
 			<Banner
@@ -16,10 +21,14 @@ const CreateArticleForm = ({ handleInputChange, categories,handleSubmit }) => {
 					<div className="container">
 						<div className="row">
 							<div className="col-12 col-lg-12">
-								<form
-									className="p-30 bg-gray rounded"
-									onSubmit={handleSubmit}
-								>
+								<ul className="list-group">
+									{errors.map((error, i) => (
+										<li key={i} className="list-group-item text-danger">
+											{error.message}
+										</li>
+									))}
+								</ul>
+								<form className="p-30 bg-gray rounded" onSubmit={handleSubmit}>
 									<div className="row">
 										<div className="form-group col-md-12 my-5">
 											<input

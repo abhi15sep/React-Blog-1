@@ -7,18 +7,22 @@ class CreateArticle extends React.Component {
 		title: "",
 		image: null,
 		content: "",
-		category: 0,
-		errors: {},
+		category: null,
+		errors: [],
 		categories: []
 	};
 
 	handleSubmit = async event => {
 		event.preventDefault();
-		await this.props.createArticle(this.state);
+		try {
+			const article = await this.props.createArticle(this.state, this.props.token);
+			this.props.history.push("/");
+		} catch (errors) {
+			this.setState({ errors });
+		}
 	};
 
 	handleInputChange = event => {
-		console.log(event.target.files);
 		this.setState({
 			[event.target.name]:
 				event.target.type === "file"
@@ -40,6 +44,7 @@ class CreateArticle extends React.Component {
 				handleInputChange={this.handleInputChange}
 				categories={this.state.categories}
 				handleSubmit={this.handleSubmit}
+				errors={this.state.errors}
 			/>
 		);
 	}
@@ -48,7 +53,9 @@ class CreateArticle extends React.Component {
 CreateArticle.displayName = "CreateArticle";
 
 CreateArticle.propTypes = {
-	className: PropTypes.string
+	getArticleCategories: PropTypes.func.isRequired,
+	createArticle: PropTypes.func.isRequired,
+	token: PropTypes.string.isRequired
 };
 
 export default CreateArticle;
