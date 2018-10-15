@@ -20,12 +20,15 @@ class App extends Component {
 		}
 	}
 	setAuthUser = authUser => {
-		this.setState({
-			authUser
-		}, () => {
-			localStorage.setItem("user", JSON.stringify(authUser));
-			this.props.history.push("/");
-		});
+		this.setState(
+			{
+				authUser
+			},
+			() => {
+				localStorage.setItem("user", JSON.stringify(authUser));
+				this.props.history.push("/");
+			}
+		);
 	};
 	render() {
 		const { location } = this.props;
@@ -57,7 +60,11 @@ class App extends Component {
 					)}
 				/>
 				<Route exact path="/" component={Welcome} />
-				<Route path="/articles/create" component={CreateArticle} />
+				<Route
+					path="/articles/create"
+					render={props => <CreateArticle {...props} 
+					getArticleCategories={this.props.articlesService.getArticleCategories} />}
+				/>
 				<Route path="/article/:slug" component={SingleArticle} />
 				{location.pathname !== "/login" &&
 					location.pathname !== "/signup" && <Footer />}
@@ -72,8 +79,8 @@ App.propTypes = {
 	location: PropTypes.shape({
 		pathname: PropTypes.string.isRequired
 	}).isRequired,
-	history:PropTypes.shape({
-		push:PropTypes.func.isRequired,
+	history: PropTypes.shape({
+		push: PropTypes.func.isRequired
 	}).isRequired,
 	authService: PropTypes.objectOf(PropTypes.func).isRequired
 };
