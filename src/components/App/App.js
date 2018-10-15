@@ -62,8 +62,15 @@ class App extends Component {
 				<Route exact path="/" component={Welcome} />
 				<Route
 					path="/articles/create"
-					render={props => <CreateArticle {...props} 
-					getArticleCategories={this.props.articlesService.getArticleCategories} />}
+					render={props => (
+						<CreateArticle
+							{...props}
+							getArticleCategories={
+								this.props.articlesService.getArticleCategories
+							}
+							createArticle={this.props.articlesService.createArticle}
+						/>
+					)}
 				/>
 				<Route path="/article/:slug" component={SingleArticle} />
 				{location.pathname !== "/login" &&

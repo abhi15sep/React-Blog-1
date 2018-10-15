@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Banner from "../../Banner/Banner";
 
-const CreateArticleForm = ({ handleInputChange, categories }) => {
+const CreateArticleForm = ({ handleInputChange, categories,handleSubmit }) => {
 	return (
 		<React.Fragment>
 			<Banner
@@ -18,8 +18,7 @@ const CreateArticleForm = ({ handleInputChange, categories }) => {
 							<div className="col-12 col-lg-12">
 								<form
 									className="p-30 bg-gray rounded"
-									method="POST"
-									data-form="mailer"
+									onSubmit={handleSubmit}
 								>
 									<div className="row">
 										<div className="form-group col-md-12 my-5">

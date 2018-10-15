@@ -9,7 +9,12 @@ class CreateArticle extends React.Component {
 		content: "",
 		category: 0,
 		errors: {},
-		categories:[],
+		categories: []
+	};
+
+	handleSubmit = async event => {
+		event.preventDefault();
+		await this.props.createArticle(this.state);
 	};
 
 	handleInputChange = event => {
@@ -25,14 +30,18 @@ class CreateArticle extends React.Component {
 	async componentWillMount() {
 		const categories = await this.props.getArticleCategories();
 		this.setState({
-			categories:categories
-		})
+			categories
+		});
 	}
 
 	render() {
-		return <CreateArticleForm 
-		handleInputChange={this.handleInputChange}
-		categories={this.state.categories} />;
+		return (
+			<CreateArticleForm
+				handleInputChange={this.handleInputChange}
+				categories={this.state.categories}
+				handleSubmit={this.handleSubmit}
+			/>
+		);
 	}
 }
 
