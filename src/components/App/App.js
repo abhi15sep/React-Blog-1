@@ -62,9 +62,12 @@ class App extends Component {
 				<Route
 					exact
 					path="/"
-					render={props => 
-						<Welcome {...props} getArticles={this.props.articlesService.getArticles}/>
-					}
+					render={props => (
+						<Welcome
+							{...props}
+							getArticles={this.props.articlesService.getArticles}
+						/>
+					)}
 				/>
 				<Route
 					path="/articles/create"
@@ -79,7 +82,15 @@ class App extends Component {
 						/>
 					)}
 				/>
-				<Route path="/article/:slug" component={SingleArticle} />
+				<Route
+					path="/article/:slug"
+					render={props => (
+						<SingleArticle
+							{...props}
+							getArticle={this.props.articlesService.getArticle}
+						/>
+					)}
+				/>
 				{location.pathname !== "/login" &&
 					location.pathname !== "/signup" && <Footer />}
 			</React.Fragment>

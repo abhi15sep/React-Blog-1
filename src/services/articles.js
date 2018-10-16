@@ -3,8 +3,13 @@ import config from "../config";
 import { validateAll } from "indicative";
 
 export default class ArticlesService {
-	async getArticles() {
-		const response = await Axios.get(`${config.apiUrl}/articles`);
+	async getArticles(url = `${config.apiUrl}/articles`) {
+		const response = await Axios.get(url);
+		return response.data.data;
+	}
+
+	async getArticle(slug) {
+		const response = await Axios.get(`${config.apiUrl}/article/${slug}`);
 		return response.data.data;
 	}
 
