@@ -32,6 +32,7 @@ class App extends Component {
 			},
 			() => {
 				localStorage.setItem("user", JSON.stringify(authUser));
+				this.props.notyService.success("Successfully logged in!")
 				this.props.history.push("/");
 			}
 		);
@@ -39,6 +40,7 @@ class App extends Component {
 
 	removeAuthUser = () => {
 		localStorage.removeItem("user");
+		this.props.notyService.success("Successfully logged out!");
 		this.setState({ authUser: null });
 	};
 
@@ -91,7 +93,8 @@ class App extends Component {
 						getArticleCategories: this.props.articlesService
 							.getArticleCategories,
 						createArticle: this.props.articlesService.createArticle,
-						token: this.state.authUser ? this.state.authUser.token : null
+						token: this.state.authUser ? this.state.authUser.token : null,
+						notyService:this.props.notyService,
 					}}
 					isAuthenticated={this.state.authUser !== null}
 				/>

@@ -44,8 +44,10 @@ class CreateArticle extends React.Component {
 		event.preventDefault();
 		try {
 			await this.props.createArticle(this.state, this.props.token);
+			this.props.notyService.success("Article created successfully!");
 			this.props.history.push("/");
 		} catch (errors) {
+			this.props.notyService.error("Please check for errors!");
 			this.setState({ errors });
 		}
 	};
@@ -53,14 +55,20 @@ class CreateArticle extends React.Component {
 	updateArticle = async event => {
 		event.preventDefault();
 		try {
-			await this.props.updateArticle({
-				title: this.state.title,
-				image: this.state.image,
-				content: this.state.content,
-				category: this.state.category
-			}, this.state.article, this.props.token);
+			await this.props.updateArticle(
+				{
+					title: this.state.title,
+					image: this.state.image,
+					content: this.state.content,
+					category: this.state.category
+				},
+				this.state.article,
+				this.props.token
+			);
+			this.props.notyService.success("Article updated successfully!");
 			this.props.history.push("/");
 		} catch (errors) {
+			this.props.notyService.error("Please check for errors!");
 			this.setState({ errors });
 		}
 	};
