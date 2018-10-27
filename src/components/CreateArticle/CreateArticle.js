@@ -109,7 +109,7 @@ CreateArticle.propTypes = {
 	history: PropTypes.shape({
 		push: PropTypes.func.isRequired
 	}).isRequired,
-	updateArticle: PropTypes.func.isRequired,
+	updateArticle: PropTypes.func,
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			slug: PropTypes.string
@@ -124,7 +124,12 @@ CreateArticle.propTypes = {
 			}).isRequired,
 			created_at: PropTypes.string.isRequired
 		})
-	).isRequired
+	)
+};
+
+CreateArticle.defaultProps = {
+	updateArticle: () => {},
+	articles: []
 };
 
 export default CreateArticle;

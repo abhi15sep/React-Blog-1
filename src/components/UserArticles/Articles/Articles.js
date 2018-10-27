@@ -2,6 +2,7 @@ import React from "react";
 import Banner from "../../Banner/Banner";
 import Article from "../../Article/Article";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Articles = ({
 	articles,
@@ -70,5 +71,24 @@ const Articles = ({
 		</React.Fragment>
 	);
 };
+
+Articles.propTypes = {
+	articles: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.number.isRequired
+		})
+	).isRequired,
+	handlePagination: PropTypes.func.isRequired,
+	nextUrl: PropTypes.string,
+	previousUrl: PropTypes.string,
+	deleteArticle: PropTypes.func.isRequired,
+	editArticle: PropTypes.func.isRequired
+};
+
+Articles.defaultProps = {
+	articles:[],
+	nextUrl:null,
+	previousUrl:null
+}
 
 export default Articles;

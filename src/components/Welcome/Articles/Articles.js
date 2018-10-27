@@ -2,6 +2,7 @@ import React from "react";
 import Banner from "../../Banner/Banner";
 import Article from "../../Article/Article";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Articles = ({ articles, handlePagination, nextUrl, previousUrl }) => {
 	return (
@@ -23,7 +24,7 @@ const Articles = ({ articles, handlePagination, nextUrl, previousUrl }) => {
 							))}
 						<nav className="flexbox mb-50 mt-50">
 							<Link
-								className={`btn btn-white ${previousUrl ? "" : 'disabled'}`}
+								className={`btn btn-white ${previousUrl ? "" : "disabled"}`}
 								to="#"
 								onClick={() => handlePagination(previousUrl)}
 							>
@@ -31,7 +32,7 @@ const Articles = ({ articles, handlePagination, nextUrl, previousUrl }) => {
 								Previous Page
 							</Link>
 							<Link
-								className={`btn btn-white ${nextUrl ? "" : 'disabled'}`}
+								className={`btn btn-white ${nextUrl ? "" : "disabled"}`}
 								to="#"
 								onClick={() => handlePagination(nextUrl)}
 							>
@@ -44,6 +45,23 @@ const Articles = ({ articles, handlePagination, nextUrl, previousUrl }) => {
 			</main>
 		</React.Fragment>
 	);
+};
+
+Articles.propTypes = {
+	articles: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.number.isRequired
+		})
+	),
+	handlePagination: PropTypes.func.isRequired,
+	nextUrl: PropTypes.string,
+	prevUrl: PropTypes.string
+};
+
+Articles.defaultProps = {
+	articles: [],
+	nextUrl: null,
+	prevUrl: null
 };
 
 export default Articles;

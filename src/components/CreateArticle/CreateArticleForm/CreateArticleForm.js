@@ -62,7 +62,7 @@ const CreateArticleForm = ({
 									<div className="form-group col-12 col-md-6">
 										<select
 											name="category"
-											value={category}
+											value={category || ""}
 											onChange={handleInputChange}
 											className="form-control form-control-lg"
 										>
@@ -122,12 +122,13 @@ CreateArticleForm.propTypes = {
 	}),
 	title: PropTypes.string.isRequired,
 	content: PropTypes.string.isRequired,
-	category:PropTypes.string,
+	category:PropTypes.number,
 	updateArticle: PropTypes.func.isRequired
 };
 
 CreateArticleForm.defaultProps = {
-	article: null
+	article: null,
+	category: null,
 };
 
 export default CreateArticleForm;

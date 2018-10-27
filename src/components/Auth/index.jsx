@@ -19,7 +19,10 @@ const Auth = ({ path, props, component: Component, isAuthenticated }) => {
 Auth.displayName = "Auth";
 
 Auth.propTypes = {
-	className: PropTypes.string
+	isAuthenticated: PropTypes.bool.isRequired,
+	component: PropTypes.func.isRequired,
+	props: PropTypes.objectOf(PropTypes.any),
+	path: PropTypes.string.isRequired
 };
 
 export default Auth;

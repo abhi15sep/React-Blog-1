@@ -2,7 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 
-const RedirectIfAuth = ({ path, props, component: Component, isAuthenticated }) => {
+const RedirectIfAuth = ({
+	path,
+	props,
+	component: Component,
+	isAuthenticated
+}) => {
 	return (
 		<Route
 			path={path}
@@ -19,7 +24,10 @@ const RedirectIfAuth = ({ path, props, component: Component, isAuthenticated }) 
 RedirectIfAuth.displayName = "RedirectIfAuth";
 
 RedirectIfAuth.propTypes = {
-	className: PropTypes.string
+	isAuthenticated: PropTypes.bool.isRequired,
+	component: PropTypes.func.isRequired,
+	props: PropTypes.objectOf(PropTypes.any),
+	path: PropTypes.string.isRequired
 };
 
 export default RedirectIfAuth;
