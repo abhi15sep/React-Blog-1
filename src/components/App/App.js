@@ -37,6 +37,11 @@ class App extends Component {
 		);
 	};
 
+	removeAuthUser = () => {
+		localStorage.removeItem("user");
+		this.setState({ authUser: null });
+	};
+
 	setArticles = articles => {
 		this.setState({ articles });
 	};
@@ -48,7 +53,7 @@ class App extends Component {
 			<React.Fragment>
 				{location.pathname !== "/login" &&
 					location.pathname !== "/signup" && (
-						<Navbar authUser={this.state.authUser} />
+						<Navbar authUser={this.state.authUser} removeAuthUser={this.removeAuthUser} />
 					)}
 				<RedirectIfAuth
 					path="/login"

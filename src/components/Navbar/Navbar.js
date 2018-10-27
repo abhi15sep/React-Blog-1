@@ -45,7 +45,7 @@ const Navbar = props => {
 									<Link className="nav-link" to="/user/articles">
 										My articles
 									</Link>
-									<Link className="nav-link" to="#">
+									<Link className="nav-link" to="/" onClick={props.removeAuthUser}>
 										Logout
 									</Link>
 								</div>
