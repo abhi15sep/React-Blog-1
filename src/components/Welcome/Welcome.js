@@ -10,11 +10,13 @@ class Welcome extends React.Component {
 	async componentWillMount() {
 		const articles = await this.props.getArticles();
 		this.setState({ articles });
+		this.props.setArticles(articles.data);
 	}
 
 	handlePagination = async url => {
 		const articles = await this.props.getArticles(url);
 		this.setState({ articles });
+		this.props.setArticles(articles.data);
 	};
 
 	render() {

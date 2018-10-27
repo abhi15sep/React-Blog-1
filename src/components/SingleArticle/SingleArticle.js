@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Article from "./Article/Article";
 
 class SingleArticleContainer extends React.Component {
@@ -7,21 +6,26 @@ class SingleArticleContainer extends React.Component {
 		article: null,
 		loading: true
 	};
+
 	async componentWillMount() {
-		const article = await this.props.getArticle(this.props.match.params.slug);
-		this.setState({ article, loading:false });
+		let article = this.props.articles.find(
+			article => article.slug === this.props.match.params.slug
+		);
+		if (article) {
+			this.setState({ article, loading: false });
+		} else {
+			article = await this.props.getArticle(this.props.match.params.slug);
+			this.setState({ article, loading: false });
+		}
 	}
+
 	render() {
-		return <React.Fragment>
-		{
-			!this.state.loading &&
-			 <Article article={this.state.article} />
-		}
-		{
-			this.state.loading && 
-			<p className="text-center">LOADING ...</p>
-		}
-		</React.Fragment>;
+		return (
+			<React.Fragment>
+				{!this.state.loading && <Article article={this.state.article} />}
+				{this.state.loading && <p className="text-center">LOADING ...</p>}
+			</React.Fragment>
+		);
 	}
 }
 

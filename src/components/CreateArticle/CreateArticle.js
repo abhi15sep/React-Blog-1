@@ -9,13 +9,56 @@ class CreateArticle extends React.Component {
 		content: "",
 		category: null,
 		errors: [],
-		categories: []
+		categories: [],
+		editing: false,
+		article: null
 	};
+
+	async componentWillMount() {
+		const categories = await this.props.getArticleCategories();
+
+		if (this.props.match.params.slug) {
+			const article = this.props.articles.find(
+				articleInArray => articleInArray.slug === this.props.match.params.slug
+			);
+			if (!article) {
+				this.props.history.push("/user/articles");
+				return;
+			}
+			this.setState({
+				editing: true,
+				article,
+				categories,
+				title: article.title,
+				category: article.category_id,
+				content: article.content
+			});
+		} else {
+			this.setState({
+				categories
+			});
+		}
+	}
 
 	handleSubmit = async event => {
 		event.preventDefault();
 		try {
-			const article = await this.props.createArticle(this.state, this.props.token);
+			await this.props.createArticle(this.state, this.props.token);
+			this.props.history.push("/");
+		} catch (errors) {
+			this.setState({ errors });
+		}
+	};
+
+	updateArticle = async event => {
+		event.preventDefault();
+		try {
+			await this.props.updateArticle({
+				title: this.state.title,
+				image: this.state.image,
+				content: this.state.content,
+				category: this.state.category
+			}, this.state.article, this.props.token);
 			this.props.history.push("/");
 		} catch (errors) {
 			this.setState({ errors });
@@ -31,13 +74,6 @@ class CreateArticle extends React.Component {
 		});
 	};
 
-	async componentWillMount() {
-		const categories = await this.props.getArticleCategories();
-		this.setState({
-			categories
-		});
-	}
-
 	render() {
 		return (
 			<CreateArticleForm
@@ -45,6 +81,12 @@ class CreateArticle extends React.Component {
 				categories={this.state.categories}
 				handleSubmit={this.handleSubmit}
 				errors={this.state.errors}
+				editing={this.state.editing}
+				article={this.state.article}
+				title={this.state.title}
+				content={this.state.content}
+				category={this.state.category}
+				updateArticle={this.updateArticle}
 			/>
 		);
 	}
@@ -55,7 +97,26 @@ CreateArticle.displayName = "CreateArticle";
 CreateArticle.propTypes = {
 	getArticleCategories: PropTypes.func.isRequired,
 	createArticle: PropTypes.func.isRequired,
-	token: PropTypes.string.isRequired
+	token: PropTypes.string.isRequired,
+	history: PropTypes.shape({
+		push: PropTypes.func.isRequired
+	}).isRequired,
+	updateArticle: PropTypes.func.isRequired,
+	match: PropTypes.shape({
+		params: PropTypes.shape({
+			slug: PropTypes.string
+		}).isRequired
+	}).isRequired,
+	articles: PropTypes.arrayOf(
+		PropTypes.shape({
+			title: PropTypes.string.isRequired,
+			imageUrl: PropTypes.string.isRequired,
+			category: PropTypes.shape({
+				name: PropTypes.string.isRequired
+			}).isRequired,
+			created_at: PropTypes.string.isRequired
+		})
+	).isRequired
 };
 
 export default CreateArticle;

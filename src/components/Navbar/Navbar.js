@@ -42,7 +42,7 @@ const Navbar = props => {
 									<i className="fa fa-caret-down" />
 								</Link>
 								<div className="nav-submenu">
-									<Link className="nav-link" to="page-login.html">
+									<Link className="nav-link" to="/user/articles">
 										My articles
 									</Link>
 									<Link className="nav-link" to="#">

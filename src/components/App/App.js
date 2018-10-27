@@ -8,17 +8,23 @@ import Welcome from "../Welcome/Welcome";
 import SingleArticle from "../SingleArticle/SingleArticle";
 import CreateArticle from "../CreateArticle/CreateArticle";
 import Footer from "../Footer/Footer";
+import Auth from "../Auth";
+import RedirectIfAuth from "../RedirectIfAuth";
+import UserArticles from "../UserArticles/UserArticles";
 
 class App extends Component {
 	state = {
-		authUser: null
+		authUser: null,
+		articles: []
 	};
+
 	componentWillMount() {
 		const user = localStorage.getItem("user");
 		if (user) {
 			this.setState({ authUser: JSON.parse(user) });
 		}
 	}
+
 	setAuthUser = authUser => {
 		this.setState(
 			{
@@ -30,6 +36,11 @@ class App extends Component {
 			}
 		);
 	};
+
+	setArticles = articles => {
+		this.setState({ articles });
+	};
+
 	render() {
 		const { location } = this.props;
 		return (
@@ -39,25 +50,23 @@ class App extends Component {
 					location.pathname !== "/signup" && (
 						<Navbar authUser={this.state.authUser} />
 					)}
-				<Route
+				<RedirectIfAuth
 					path="/login"
-					render={props => (
-						<Login
-							{...props}
-							setAuthUser={this.setAuthUser}
-							loginUser={this.props.authService.loginUser}
-						/>
-					)}
+					component={Login}
+					props={{
+						setAuthUser: this.setAuthUser,
+						loginUser: this.props.authService.loginUser
+					}}
+					isAuthenticated={this.state.authUser !== null}
 				/>
-				<Route
+				<RedirectIfAuth
 					path="/signup"
-					render={props => (
-						<Signup
-							{...props}
-							registerUser={this.props.authService.registerUser}
-							setAuthUser={this.setAuthUser}
-						/>
-					)}
+					component={Signup}
+					props={{
+						setAuthUser: this.setAuthUser,
+						registerUser: this.props.authService.registerUser
+					}}
+					isAuthenticated={this.state.authUser !== null}
 				/>
 				<Route
 					exact
@@ -65,28 +74,53 @@ class App extends Component {
 					render={props => (
 						<Welcome
 							{...props}
+							setArticles={this.setArticles}
 							getArticles={this.props.articlesService.getArticles}
 						/>
 					)}
 				/>
-				<Route
+				<Auth
 					path="/articles/create"
-					render={props => (
-						<CreateArticle
-							{...props}
-							getArticleCategories={
-								this.props.articlesService.getArticleCategories
-							}
-							createArticle={this.props.articlesService.createArticle}
-							token={this.state.authUser.token}
-						/>
-					)}
+					component={CreateArticle}
+					props={{
+						getArticleCategories: this.props.articlesService
+							.getArticleCategories,
+						createArticle: this.props.articlesService.createArticle,
+						token: this.state.authUser ? this.state.authUser.token : null
+					}}
+					isAuthenticated={this.state.authUser !== null}
+				/>
+				<Auth
+					path="/user/articles"
+					component={UserArticles}
+					props={{
+						getUserArticles: this.props.articlesService.getUserArticles,
+						setArticles: this.setArticles,
+						token: this.state.authUser ? this.state.authUser.token : null,
+						deleteArticle: this.props.articlesService.deleteArticle
+					}}
+					isAuthenticated={this.state.authUser !== null}
+				/>
+				<Auth
+					path="/article/edit/:slug"
+					component={CreateArticle}
+					props={{
+						getArticleCategories: this.props.articlesService
+							.getArticleCategories,
+						createArticle: this.props.articlesService.createArticle,
+						token: this.state.authUser ? this.state.authUser.token : null,
+						articles: this.state.articles,
+						updateArticle: this.props.articlesService.updateArticle
+					}}
+					isAuthenticated={this.state.authUser !== null}
 				/>
 				<Route
 					path="/article/:slug"
+					exact
 					render={props => (
 						<SingleArticle
 							{...props}
+							articles={this.state.articles}
 							getArticle={this.props.articlesService.getArticle}
 						/>
 					)}
@@ -107,6 +141,7 @@ App.propTypes = {
 	history: PropTypes.shape({
 		push: PropTypes.func.isRequired
 	}).isRequired,
-	authService: PropTypes.objectOf(PropTypes.func).isRequired
+	authService: PropTypes.objectOf(PropTypes.func).isRequired,
+	articlesService: PropTypes.objectOf(PropTypes.func).isRequired
 };
 export default App;
