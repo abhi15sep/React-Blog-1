@@ -107,7 +107,7 @@ class Login extends React.Component {
 Login.displayName = "Login";
 
 Login.propTypes = {
-	errors: PropTypes.objectOf(PropTypes.string).isRequired
+	errors: PropTypes.objectOf(PropTypes.string)
 };
 
 export default Login;

@@ -1,6 +1,6 @@
-import { validateAll } from "indicative";
 import axios from "axios";
 import config from "../config/index";
+const {validateAll} = window;
 
 export default class AuthService {
 	async registerUser(data) {

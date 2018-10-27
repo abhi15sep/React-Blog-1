@@ -1,6 +1,6 @@
 import Axios from "axios";
 import config from "../config";
-import { validateAll } from "indicative";
+const {validateAll} = window;
 
 export default class ArticlesService {
 	async getArticles(url = `${config.apiUrl}/articles`) {
