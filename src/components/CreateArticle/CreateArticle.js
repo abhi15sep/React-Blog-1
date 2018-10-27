@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CreateArticleForm from "./CreateArticleForm/CreateArticleForm";
+import { EditorState, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 
 class CreateArticle extends React.Component {
 	state = {
 		title: "",
 		image: null,
-		content: "",
+		content: EditorState.createEmpty(),
 		category: null,
 		errors: [],
 		categories: [],
@@ -40,10 +42,26 @@ class CreateArticle extends React.Component {
 		}
 	}
 
+	handleEditorState = editorState => {
+		this.setState({
+			content: editorState
+		});
+	};
+
 	handleSubmit = async event => {
 		event.preventDefault();
+		const html = convertToRaw(this.state.content.getCurrentContent());
+		console.log(draftToHtml(html));
 		try {
-			await this.props.createArticle(this.state, this.props.token);
+			await this.props.createArticle(
+				{
+					title: this.state.title,
+					content: draftToHtml(html),
+					category: this.state.category,
+					image: this.state.image
+				},
+				this.props.token
+			);
 			this.props.notyService.success("Article created successfully!");
 			this.props.history.push("/");
 		} catch (errors) {
@@ -53,13 +71,14 @@ class CreateArticle extends React.Component {
 	};
 
 	updateArticle = async event => {
+		const html = convertToRaw(this.state.content.getCurrentContent());
 		event.preventDefault();
 		try {
 			await this.props.updateArticle(
 				{
 					title: this.state.title,
 					image: this.state.image,
-					content: this.state.content,
+					content: draftToHtml(html),
 					category: this.state.category
 				},
 				this.state.article,
@@ -95,6 +114,7 @@ class CreateArticle extends React.Component {
 				content={this.state.content}
 				category={this.state.category}
 				updateArticle={this.updateArticle}
+				handleEditorState={this.handleEditorState}
 			/>
 		);
 	}

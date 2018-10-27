@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Banner from "../../Banner/Banner";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const CreateArticleForm = ({
 	handleInputChange,
@@ -12,7 +14,8 @@ const CreateArticleForm = ({
 	title,
 	category,
 	content,
-	updateArticle
+	updateArticle,
+	handleEditorState
 }) => (
 	<React.Fragment>
 		<Banner
@@ -79,13 +82,9 @@ const CreateArticleForm = ({
 									</div>
 								</div>
 								<div className="form-group">
-									<textarea
-										className="form-control form-control-lg"
-										rows={4}
-										placeholder="Content"
-										name="content"
-										value={content}
-										onChange={handleInputChange}
+									<Editor
+										editorState={content}
+										onEditorStateChange={handleEditorState}
 									/>
 								</div>
 								<div className="text-center">
@@ -110,25 +109,27 @@ CreateArticleForm.propTypes = {
 		PropTypes.shape({
 			id: PropTypes.number.isRequired,
 			name: PropTypes.string.isRequired
-		})).isRequired,
+		})
+	).isRequired,
 	handleSubmit: PropTypes.func.isRequired,
 	errors: PropTypes.arrayOf(
 		PropTypes.shape({
 			message: PropTypes.string.isRequired
-		})).isRequired,
+		})
+	).isRequired,
 	editing: PropTypes.bool.isRequired,
 	article: PropTypes.shape({
 		title: PropTypes.string.isRequired
 	}),
 	title: PropTypes.string.isRequired,
-	content: PropTypes.string.isRequired,
-	category:PropTypes.number,
+	content: PropTypes.objectOf(PropTypes.any).isRequired,
+	category: PropTypes.string,
 	updateArticle: PropTypes.func.isRequired
 };
 
 CreateArticleForm.defaultProps = {
 	article: null,
-	category: null,
+	category: null
 };
 
 export default CreateArticleForm;
