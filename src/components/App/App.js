@@ -32,7 +32,7 @@ class App extends Component {
 			},
 			() => {
 				localStorage.setItem("user", JSON.stringify(authUser));
-				this.props.notyService.success("Successfully logged in!")
+				this.props.notyService.success("Successfully logged in!");
 				this.props.history.push("/");
 			}
 		);
@@ -53,10 +53,12 @@ class App extends Component {
 		return (
 			// hide navbar and footer login and signup page
 			<React.Fragment>
-				{location.pathname !== "/login" &&
-					location.pathname !== "/signup" && (
-						<Navbar authUser={this.state.authUser} removeAuthUser={this.removeAuthUser} />
-					)}
+				{location.pathname !== "/login" && location.pathname !== "/signup" && (
+					<Navbar
+						authUser={this.state.authUser}
+						removeAuthUser={this.removeAuthUser}
+					/>
+				)}
 				<RedirectIfAuth
 					path="/login"
 					component={Login}
@@ -94,7 +96,7 @@ class App extends Component {
 							.getArticleCategories,
 						createArticle: this.props.articlesService.createArticle,
 						token: this.state.authUser ? this.state.authUser.token : null,
-						notyService:this.props.notyService,
+						notyService: this.props.notyService
 					}}
 					isAuthenticated={this.state.authUser !== null}
 				/>
@@ -133,8 +135,9 @@ class App extends Component {
 						/>
 					)}
 				/>
-				{location.pathname !== "/login" &&
-					location.pathname !== "/signup" && <Footer />}
+				{location.pathname !== "/login" && location.pathname !== "/signup" && (
+					<Footer />
+				)}
 			</React.Fragment>
 		);
 	}

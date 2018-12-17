@@ -120,7 +120,7 @@ Signup.displayName = "Signup";
 
 Signup.propTypes = {
 	registerUser: PropTypes.func.isRequired,
-	setAuthUser: PropTypes.func.isRequired,
+	setAuthUser: PropTypes.func.isRequired
 };
 
 export default Signup;

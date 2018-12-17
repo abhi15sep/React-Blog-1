@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../config/index";
-const {validateAll} = window;
+const { validateAll } = window;
 
 export default class AuthService {
 	async registerUser(data) {
@@ -33,7 +33,7 @@ export default class AuthService {
 			return Promise.reject(formattedErrors);
 		}
 	}
-	
+
 	async loginUser(data) {
 		// validation by indicative package
 		const rules = {

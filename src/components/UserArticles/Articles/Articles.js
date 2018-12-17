@@ -86,9 +86,9 @@ Articles.propTypes = {
 };
 
 Articles.defaultProps = {
-	articles:[],
-	nextUrl:null,
-	previousUrl:null
-}
+	articles: [],
+	nextUrl: null,
+	previousUrl: null
+};
 
 export default Articles;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import renderHtml from 'react-render-html';
+import renderHtml from "react-render-html";
 
 const SingleArticle = ({ article }) => (
 	<div>
@@ -14,7 +14,9 @@ const SingleArticle = ({ article }) => (
 			<div className="container text-center">
 				<div className="row h-full">
 					<div className="col-12 col-lg-8 offset-lg-2 align-self-center">
-						<p className="opacity-70">{article.category && article.category.name}</p>
+						<p className="opacity-70">
+							{article.category && article.category.name}
+						</p>
 						<br />
 						<h1 className="display-4 hidden-sm-down">{article.title}</h1>
 						<h1 className="hidden-md-up">We've just passed 1,000 customers!</h1>

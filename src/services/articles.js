@@ -1,6 +1,6 @@
 import Axios from "axios";
 import config from "../config";
-const {validateAll} = window;
+const { validateAll } = window;
 
 export default class ArticlesService {
 	async getArticles(url = `${config.apiUrl}/articles`) {
@@ -106,7 +106,7 @@ export default class ArticlesService {
 					title: data.title,
 					content: data.content,
 					category_id: data.category,
-					imageUrl: image ? image.secure_url : article.imageUrl,
+					imageUrl: image ? image.secure_url : article.imageUrl
 				},
 				{
 					headers: {

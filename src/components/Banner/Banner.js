@@ -23,7 +23,7 @@ Banner.displayName = "Banner";
 Banner.propTypes = {
 	backgroundImage: PropTypes.string,
 	paragraph: PropTypes.string,
-	title: PropTypes.string,
+	title: PropTypes.string
 };
 
 export default Banner;

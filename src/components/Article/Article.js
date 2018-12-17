@@ -11,7 +11,7 @@ const Article = ({ article }) => {
 				</h3>
 				<div className="link-color-default fs-12">
 					<Link to="#">{article.category && article.category.name}</Link>,
-					<time>{(new Date(article.created_at)).toDateString()}</time>
+					<time>{new Date(article.created_at).toDateString()}</time>
 				</div>
 			</header>
 			<Link to="blog-single.html">
