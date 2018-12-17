@@ -1,7 +1,7 @@
 {
   "name": "react-blog",
   "version": "0.1.0",
-  "homepage": "https://firattale.github.io/React-Blog-App/",
+  "homepage": "https://firattale.github.io/React-Blog",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
